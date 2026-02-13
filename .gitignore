@@ -1,0 +1,38 @@
+# --- General/IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Environment Variables (CRITICAL) ---
+.env
+*.env
+*.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Server (Node.js/Express) ---
+server/node_modules/
+server/dist/
+server/build/
+server/coverage/
+server/logs/
+server/*.log
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
+server/*.tsbuildinfo
+
+# --- AI Service (Python) ---
+ai-service/venv/
+ai-service/.venv/
+ai-service/__pycache__/
+ai-service/*.pyc
+ai-service/.pytest_cache/
+ai-service/.coverage
+ai-service/htmlcov/
+ai-service/*.spec

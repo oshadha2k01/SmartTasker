@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from model import PriorityPredictor, TaskGenerator
 from typing import List
+import uvicorn
 
 app = FastAPI()
 predictor = PriorityPredictor()
@@ -33,3 +34,6 @@ async def generate_tasks_endpoint(input_data: NaturalLanguageInput):
         return tasks
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

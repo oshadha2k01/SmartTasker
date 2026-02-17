@@ -5,7 +5,7 @@ import { initSocket } from './services/socketService';
 import app from './app';
 
 const server = http.createServer(app); // Wrap Express app with HTTP server
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // Database Connection
 const connectDB = async () => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTasks, createTask, updateTask, deleteTask } from '../controllers/taskController';
+import { getTasks, createTask, updateTask, deleteTask, generateTasksFromText } from '../controllers/taskController';
 import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
@@ -11,6 +11,9 @@ router.use(protect);
 router.route('/')
     .get(getTasks)      // GET /tasks
     .post(createTask);  // POST /tasks
+
+// AI Generation Endpoint
+router.post('/generate', generateTasksFromText); // POST /tasks/generate
 
 router.route('/:id')
     .put(updateTask)    // PUT /tasks/:id

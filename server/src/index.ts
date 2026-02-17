@@ -1,23 +1,11 @@
-import express, { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
+import 'dotenv/config'; // Load env vars before anything else
 import mongoose from 'mongoose';
-import cors from 'cors';
 import http from 'http';
 import { initSocket } from './services/socketService';
+import app from './app';
 
-// Load environment variables 
-dotenv.config();
-
-const app = express();
 const server = http.createServer(app); // Wrap Express app with HTTP server
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(express.json()); // Body parser [cite: 54]
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true
-}));
+const PORT = process.env.PORT || 5001;
 
 // Database Connection
 const connectDB = async () => {
@@ -33,19 +21,8 @@ const connectDB = async () => {
 connectDB();
 
 // Basic Route for Testing
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'Server is healthy' });
-});
-
-// Global Error Handler (No stack trace leaks) 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(500).json({
-        success: false,
-        message: process.env.NODE_ENV === 'production'
-            ? 'An internal server error occurred'
-            : err.message
-    });
 });
 
 // Initialize Socket.io

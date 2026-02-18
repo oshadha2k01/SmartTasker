@@ -1,72 +1,98 @@
-# SmartTasker Setup & Running Guide
+# SmartTasker: AI-Powered Task Management System
 
-## Prerequisites
-- Node.js & npm
-- Python 3.10+
+SmartTasker is a modern, full-stack task management application that leverages Artificial Intelligence to streamline productivity. It features real-time notifications, intelligent task prioritization, and natural language task generation.
 
-## 1. AI Service (Python)
-The AI service runs on port **8000**.
+---
 
-1. Navigate to the directory:
-   ```powershell
-   cd ai-service
-   ```
-2. Activate Virtual Environment:
-   ```powershell
-   .\venv\Scripts\activate
-   ```
-3. Install Dependencies (if not already done):
-   ```powershell
-   pip install -r requirements.txt
-   python -m spacy download en_core_web_sm
-   ```
-4. **Start the Service:**
-   (Use `python -m` to avoid path issues)
-   ```powershell
-   python -m uvicorn main:app --reload --port 8000
-   ```
-   *You should see: `Uvicorn running on http://127.0.0.1:8000`*
+## System Architecture
 
-## 2. Backend Server (Node.js)
-The Express server runs on port **5000**.
+The project is built using a decoupled service-oriented architecture:
 
-1. Navigate to the directory:
-   ```powershell
-   cd server
-   ```
-2. Install Dependencies (if not already done):
-   ```powershell
-   npm install
-   ```
-3. **Start the Server:**
-   ```powershell
-   npm run dev
-   ```
-   *You should see: `Server running in development mode on port 5000`*
-   *And: `MongoDB Connected successfully`*
+*   **Frontend (`/client`):** Next.js 16 application providing a sleek, responsive user interface.
+*   **Core Backend (`/server`):** Express.js server handling authentication, business logic, and real-time communication.
+*   **AI Service (`/ai-service`):** Python FastAPI service dedicated to NLP-based task extraction and priority prediction.
 
-## 3. Testing the Integration
-You can test the AI Task Generation feature using PowerShell:
+---
 
-```powershell
-$body = @{ text = "Buy milk tomorrow and finish the report by Friday" } | ConvertTo-Json
-Invoke-RestMethod -Uri "http://localhost:5000/tasks/generate" -Method Post -Body $body -ContentType "application/json"
+## Tech Stack
+
+### Frontend
+- **Framework:** Next.js 16 (App Router)
+- **Styling:** Tailwind CSS 4
+- **State/Form:** React Hook Form + Zod
+- **Real-time:** Socket.io-client
+- **Icons:** Lucide React
+
+### Backend
+- **Runtime:** Node.js with TypeScript
+- **Framework:** Express.js
+- **Database:** MongoDB (Mongoose ODM)
+- **Real-time:** Socket.io
+- **Security:** JWT, BcryptJS, Helmet, Rate Limiting
+- **Email:** Nodemailer
+
+### AI Service
+- **Language:** Python 3.10+
+- **Framework:** FastAPI
+- **Library:** Spacy (NLP)
+- **Server:** Uvicorn
+
+---
+
+## Features
+
+- **Intelligent Task Generation:** Input natural language (e.g., "Buy milk tomorrow") and let the AI extract titles and due dates.
+- **AI Priority Prediction:** Automatically predicts task priority based on description and deadlines.
+- **Real-time Notifications:** Instant alerts for task reminders via WebSockets.
+- **Secure Authentication:** JWT-based user login and registration system.
+- **Responsive Design:** Optimized for both desktop and mobile views.
+
+---
+
+## Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python](https://www.python.org/) (v3.10+)
+- [MongoDB](https://www.mongodb.com/) (Local or Atlas)
+
+### 1. AI Service Setup
+```bash
+cd ai-service
+python -m venv venv
+.\venv\Scripts\activate  
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+
+python -m uvicorn main:app --reload --port 8000
 ```
 
-Expected Output:
-```json
-{
-    "tasks": [
-        {
-            "title": "Buy milk",
-            "due_date": "2026-02-18T...",
-            "priority": "Low"
-        },
-        {
-            "title": "finish the report",
-            "due_date": "2026-02-21T...",
-            "priority": "High"
-        }
-    ]
-}
+### 2. Backend Server Setup
+```bash
+cd server
+npm install
+
+npm run dev
 ```
+
+### 3. Frontend Client Setup
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
+## Security Measures
+- **Rate Limiting:** Protects against brute force attacks.
+- **HTTP Headers:** Secured via Helmet.
+- **Password Hashing:** Industry-standard BcryptJS encryption.
+- **Input Validation:** Strict schema validation using Zod.
+
+---
+
+## Contact & Support
+For inquiries, please contact the development team at:
+- **Website:** [Oshadha Pathiraja](https://my-portfolio-one-wine-22.vercel.app/)
+- **Email:** [oshadhanipun093@gmail.com]

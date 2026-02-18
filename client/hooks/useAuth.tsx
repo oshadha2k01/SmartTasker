@@ -23,7 +23,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
-        // Check for stored auth data on mount
         const storedUser = localStorage.getItem('user');
         const storedToken = localStorage.getItem('token');
 
@@ -38,7 +37,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setToken(authToken);
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('token', authToken);
-        // Set cookie for middleware access
         document.cookie = `token=${authToken}; path=/; max-age=86400; SameSite=Strict`;
     }, []);
 

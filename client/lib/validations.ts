@@ -17,7 +17,7 @@ export const taskSchema = z.object({
     title: z.string().min(1, "Title is required").max(100, "Title is too long"),
     description: z.string().optional(),
     status: z.enum(['pending', 'completed']),
-    deadline: z.string().optional(), // ISO Date string
+    deadline: z.string().optional(),
 });
 
 export type TaskFormData = z.infer<typeof taskSchema>;

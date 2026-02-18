@@ -177,7 +177,6 @@ export default function TaskModal({ isOpen, onClose, onTaskCreated, token, taskT
                         )}
                     </div>
 
-                    {/* Deadline Field */}
                     <div className="space-y-2">
                         <label htmlFor="deadline" className="block text-sm font-semibold text-gray-700">
                             Deadline

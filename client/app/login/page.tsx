@@ -57,7 +57,6 @@ export default function LoginPage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-white to-sky-50 px-4 py-12">
-            {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-sky-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -65,9 +64,7 @@ export default function LoginPage() {
             </div>
 
             <div className="relative w-full max-w-md">
-                {/* Main Card */}
                 <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 md:p-10 space-y-8 transform transition-all duration-300 hover:shadow-3xl">
-                    {/* Header */}
                     <div className="text-center space-y-3">
 
                         <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
@@ -76,9 +73,7 @@ export default function LoginPage() {
                         <p className="text-gray-600 text-sm md:text-base">Welcome back!</p>
                     </div>
 
-                    {/* Form */}
                     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                        {/* Email Field */}
                         <div className="space-y-2">
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
                                 Email Address
@@ -160,7 +155,6 @@ export default function LoginPage() {
                         </button>
                     </form>
 
-                    {/* Footer Link */}
                     <div className="pt-4 border-t border-gray-200">
                         <p className="text-center text-sm text-gray-600">
                             Don't have an account?{' '}

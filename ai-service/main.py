@@ -28,7 +28,6 @@ async def predict(task: TaskInput):
 async def generate_tasks_endpoint(input_data: NaturalLanguageInput):
     try:
         tasks = generator.parse_input(input_data.text)
-        # Add priority prediction for each generated task
         for task in tasks:
             task['priority'] = predictor.predict(task['title'])
         return tasks

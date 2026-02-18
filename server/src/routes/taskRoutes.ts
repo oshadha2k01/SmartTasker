@@ -4,19 +4,19 @@ import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// Apply protection middleware to all task routes
+
 router.use(protect);
 
-// CRUD Endpoints for /tasks
-router.route('/')
-    .get(getTasks)      // GET /tasks
-    .post(createTask);  // POST /tasks
 
-// AI Generation Endpoint
-router.post('/generate', generateTasksFromText); // POST /tasks/generate
+router.route('/')
+    .get(getTasks)
+    .post(createTask);
+
+
+router.post('/generate', generateTasksFromText);
 
 router.route('/:id')
-    .put(updateTask)    // PUT /tasks/:id
-    .delete(deleteTask); // DELETE /tasks/:id
+    .put(updateTask)
+    .delete(deleteTask);
 
 export default router;

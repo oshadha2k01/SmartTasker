@@ -36,3 +36,17 @@ ai-service/.pytest_cache/
 ai-service/.coverage
 ai-service/htmlcov/
 ai-service/*.spec
+
+# --- Client (Next.js) ---
+client/node_modules/
+client/.next/
+client/out/
+client/build/
+client/coverage/
+client/.vercel/
+client/*.tsbuildinfo
+client/next-env.d.ts
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/.pnpm-debug.log*

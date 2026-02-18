@@ -1,13 +1,13 @@
-import 'dotenv/config'; // Load env vars before anything else
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import http from 'http';
 import { initSocket } from './services/socketService';
+import { startScheduler } from './services/scheduler';
 import app from './app';
 
-const server = http.createServer(app); // Wrap Express app with HTTP server
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
-// Database Connection
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI as string);
@@ -20,13 +20,13 @@ const connectDB = async () => {
 
 connectDB();
 
-// Basic Route for Testing
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'Server is healthy' });
 });
 
-// Initialize Socket.io
 initSocket(server);
+
+startScheduler();
 
 server.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

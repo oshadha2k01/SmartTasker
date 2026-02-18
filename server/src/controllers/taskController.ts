@@ -1,4 +1,3 @@
-// server/src/controllers/taskController.ts
 import { Response } from 'express';
 import { Task } from '../models/Task';
 import { AuthRequest } from '../middleware/authMiddleware';
@@ -6,19 +5,30 @@ import axios from 'axios';
 import { notifyUser } from '../services/socketService';
 
 export const getTasks = async (req: AuthRequest, res: Response) => {
-    const tasks = await Task.find({ user: req.user?.id }); // Ownership enforced
-    res.json(tasks);
+    console.log(`Getting tasks for user: ${req.user?.id}`);
+    try {
+        const tasks = await Task.find({ user: req.user?.id });
+        console.log(`Found ${tasks.length} tasks`);
+        res.status(200).json(tasks);
+    } catch (err: any) {
+        console.error('Error in getTasks:', err);
+        res.status(500).json({ message: 'Server error retrieving tasks' });
+    }
 };
 
 export const updateTask = async (req: AuthRequest, res: any) => {
     const task = await Task.findById(req.params.id);
 
-    // Security Check: Does the user own this task?
     if (!task || task.user.toString() !== req.user?.id) {
         return res.status(404).json({ message: 'Task not found or unauthorized' });
     }
 
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updateData = { ...req.body };
+    if (req.body.deadline) {
+        updateData.notificationSent = false;
+    }
+
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.json(updatedTask);
 };
 
@@ -29,18 +39,14 @@ export const createTask = async (req: AuthRequest, res: Response) => {
             return;
         }
 
-        // 1. Create task in DB (Core Requirement)
         const task = await Task.create({ ...req.body, user: req.user.id });
 
-        // 2. Call Python AI Microservice (Novelty Feature)
         try {
-            // Check if the AI service URL is defined, fallback to localhost:8000
             const aiServiceUrl = process.env.AI_SERVICE_URL || 'http://localhost:8000';
             const aiResponse = await axios.post(`${aiServiceUrl}/predict-priority`, {
                 description: task.description
             });
 
-            // 3. Push Real-time Notification via WebSockets
             notifyUser(req.user.id, {
                 taskId: task._id,
                 suggestion: aiResponse.data.priority,
@@ -48,7 +54,6 @@ export const createTask = async (req: AuthRequest, res: Response) => {
             });
         } catch (aiErr) {
             console.error("AI Service connection failed or returned error:", aiErr);
-            // We don't fail the task creation if AI fails, just log it.
         }
 
         res.status(201).json(task);
@@ -91,9 +96,6 @@ export const generateTasksFromText = async (req: AuthRequest, res: Response) => 
         });
 
         const generatedTasks = aiResponse.data;
-
-        // Optionally, you could save these tasks automatically, or just return them for confirmation
-        // For this feature, we'll return them so the frontend can display them for the user to confirm/add.
 
         res.json({ tasks: generatedTasks });
 

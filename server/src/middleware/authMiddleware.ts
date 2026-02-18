@@ -1,4 +1,3 @@
-// server/src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -15,7 +14,7 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction) => 
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
-        req.user = decoded; // Attach user ID to the request
+        req.user = decoded;
         next();
     } catch (error) {
         res.status(401).json({ message: 'Token is not valid' });
